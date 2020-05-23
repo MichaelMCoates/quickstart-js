@@ -42,7 +42,7 @@
     position: absolute;
     top: 0;
     transition: width 0.3s ease-out;
-    opacity: 60%;
+    opacity: 30%;
 }
 
 .title, .bar {
