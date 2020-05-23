@@ -26,7 +26,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 let title = "Donation Goal";
 let currentDonations = 0;
 let currentUniqueDonors = 0;
-let currentGoal = 400000;
+let currentGoal = 1000;
 let percentageAchieved = (currentDonations / currentGoal) * 100;
 
 $('.title').html(title);
@@ -37,7 +37,8 @@ $('.update').hide();
 
 async function updateInfo() {
   console.log('fetching new data');
-  const ref = firebase.database().ref('pittsburgh');
+  // const ref = firebase.database().ref('pittsburgh');
+  const ref = firebase.database().ref('slimetimelive');
   const valueData = await ref.once('value');
   const valueDataVal = await valueData.val();
   // console.log('valueDataVal', valueDataVal);
