@@ -15,6 +15,13 @@
  */
 'use strict';
 
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2
+})
+
+
 //GoalLoad
 let title = "Donation Goal";
 let currentDonations = 0;
@@ -23,10 +30,9 @@ let currentGoal = 400000;
 let percentageAchieved = (currentDonations / currentGoal) * 100;
 
 $('.title').html(title);
-$('.current').text(currentDonations);
-$('.total').text(currentGoal);
+$('.current').text(formatter.format(currentDonations));
+$('.total').text(formatter.format(currentGoal));
 $('.progress').css({ width: (100 - percentageAchieved) + "%" });
-$('.current').text(currentDonations);
 $('.update').hide();
 
 async function updateInfo() {
@@ -46,7 +52,7 @@ async function updateInfo() {
   if (raisedDollars > currentDonations) {
     donationDifference = raisedDollars - currentDonations;
     currentDonations = raisedDollars;
-    $('.current').text(currentDonations);
+    $('.current').text(formatter.format(currentDonations));
     percentageAchieved = (currentDonations / currentGoal) * 100;
     $('.progress').css({ width: (100 - percentageAchieved) + "%" });
   }
@@ -64,11 +70,11 @@ async function updateInfo() {
 function showUpdates(donationDifference, donorDifference) {
   if (donationDifference && donorDifference === 1) {
     $('.update').show();
-    $('.update-text').text(`Another $${donationDifference} raised by 1 new contributor. Thank you so much!`)
+    $('.update-text').text(`Another ${formatter.format(donationDifference)} raised by 1 new contributor. Thank you so much!`)
     $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
   } else if (donationDifference && donorDifference) {
     $('.update').show();
-    $('.update-text').text(`Another $${donationDifference} raised by ${donorDifference} new contributors. Thank you so much!`)
+    $('.update-text').text(`Another ${formatter.format(donationDifference)} raised by ${donorDifference} new contributors. Thank you so much!`)
     $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
   } else if (donationDifference) {
     $('.update').show();
