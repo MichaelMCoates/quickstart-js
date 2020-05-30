@@ -79,7 +79,7 @@ function showUpdates(donationDifference, donorDifference, goalChanged) {
   if (donationDifference) {
       $('.update').show();
       if (goalChanged) {
-          updatedStr = "GOAL REACHED!! Let's double it. "
+          updatedStr = "GOAL REACHED!!! Let's double it. "
           $('.total').text(formatter.format(currentGoal));
       }
       if (donorDifference === 1) {
