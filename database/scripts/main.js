@@ -49,6 +49,12 @@ async function updateInfo() {
 
   let donationDifference;
   let donorDifference;
+  let goalChanged = false;
+
+  if (raisedDollars >= currentGoal) {
+    currentGoal *= 2;
+    goalChanged = true;
+  }
 
   if (raisedDollars > currentDonations) {
     donationDifference = raisedDollars - currentDonations;
@@ -65,25 +71,47 @@ async function updateInfo() {
     currentUniqueDonors = uniqueDonorsNew;
   }
 
-  showUpdates(donationDifference, donorDifference);
+  showUpdates(donationDifference, donorDifference, goalChanged);
 }
 
-function showUpdates(donationDifference, donorDifference) {
-  if (donationDifference && donorDifference === 1) {
-    $('.update').show();
-    $('.update-text').text(`Another ${formatter.format(donationDifference)} raised by 1 new contributor. Thank you so much!`)
-    $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
-  } else if (donationDifference && donorDifference) {
-    $('.update').show();
-    $('.update-text').text(`Another ${formatter.format(donationDifference)} raised by ${donorDifference} new contributors. Thank you so much!`)
-    $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
-  } else if (donationDifference) {
-    $('.update').show();
-    $('.update-text').text(`Another $${donationDifference} contributed by our donors! Thank you so much!`)
-    $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
-  } else {
-    $('.update').hide();
+function showUpdates(donationDifference, donorDifference, goalChanged) {
+  let updatedStr = "";
+  if (donationDifference) {
+      $('.update').show();
+      if (goalChanged) {
+          updatedStr = "GOAL REACHED!! Let's double it. "
+          $('.total').text(formatter.format(currentGoal));
+      }
+      if (donorDifference === 1) {
+          updatedStr += `Another ${formatter.format(donationDifference)} raised by 1 new contributor. Thank you so much!`;
+      } else if (donorDifference) {
+          updatedStr += `Another ${formatter.format(donationDifference)} raised by ${donorDifference} new contributors. Thank you so much!`;
+      } else {
+          updatedStr += `Another ${formatter.format(donationDifference)} contributed by our donors! Thank you so much!`;
+      }
+
+      $('.update-text').text(updatedStr);
+      $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
   }
+  else {
+      $('.update').hide();
+  }
+
+  // if (donationDifference && donorDifference === 1) {
+  //   $('.update').show();
+  //   $('.update-text').text(`Another ${formatter.format(donationDifference)} raised by 1 new contributor. Thank you so much!`);
+  //   $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
+  // } else if (donationDifference && donorDifference) {
+  //   $('.update').show();
+  //   $('.update-text').text(`Another ${formatter.format(donationDifference)} raised by ${donorDifference} new contributors. Thank you so much!`);
+  //   $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
+  // } else if (donationDifference) {
+  //   $('.update').show();
+  //   $('.update-text').text(`Another $${donationDifference} contributed by our donors! Thank you so much!`);
+  //   $('.update-image').attr('src', `images/money${Math.ceil(Math.random() * 3)}.gif`);
+  // } else {
+  //   $('.update').hide();
+  // }
 }
 
 updateInfo();
